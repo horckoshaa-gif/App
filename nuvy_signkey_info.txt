@@ -1,0 +1,68 @@
+====================================================
+FIREBASE / GOOGLE SIGN-IN FINGERPRINTS (paste ONCE)
+====================================================
+
+If your app uses Google Sign-In, paste BOTH fingerprints
+into Firebase Console > Project settings > Your apps >
+Android app > "Add fingerprint". Google Sign-In checks the
+SHA-1: with only the SHA-256 it fails with
+"No credentials available".
+
+Package name: com.company.curso.app
+
+SHA-1:    5A:A1:4A:98:D5:8C:00:F0:65:58:50:64:9B:D0:CC:E9:7D:67:12:74
+SHA-256:  9B:4E:4A:6E:3B:7E:86:CD:B3:33:C6:DE:30:FF:79:A7:71:A7:68:10:E6:F4:03:A1:22:C8:14:65:5B:FD:06:D7
+
+You only do this ONCE per app. The same signing key is used
+for every future build. No need to update on each build.
+
+PUBLISHING ON GOOGLE PLAY? Play re-signs your app with its
+own key, so an install from Play has a DIFFERENT fingerprint.
+Play Console > your app > Test and release > App integrity >
+"App signing key certificate": add that SHA-1 and SHA-256
+to the same Firebase Android app too, or sign-in fails for
+everyone who installs from Play.
+
+Appwright Signing Key - README
+============================
+
+Files in this folder:
+
+  nuvy_signkey.p12      - the FULL signing key (keep PRIVATE, never share)
+  upload_cert.pem        - the certificate only (safe to share, use for Play Console reset)
+  signing_key_info.txt   - this file
+
+Credentials for nuvy_signkey.p12:
+  Keystore password: webtoapk_keystore_password
+  Key alias:         release_key
+  Key password:      webtoapk_keystore_password
+
+--------------------------------------------------
+WHICH FILE GOES WHERE
+--------------------------------------------------
+
+1) NORMAL SIGNED UPLOAD (most users):
+   Just upload the AAB file (app-release.aab) to Play Console.
+   You do NOT need these key files for that.
+
+2) "WRONG UPLOAD KEY" ERROR on Play Console:
+   Go to Play Console > Test and release > App integrity >
+   App signing > Request upload key reset.
+   Upload the "upload_cert.pem" file from this folder.
+   Google reviews within 24-48 hours.
+
+3) USING IN ANDROID STUDIO (advanced):
+   Build > Generate Signed Bundle/APK > select nuvy_signkey.p12
+   and enter the passwords above.
+
+--------------------------------------------------
+SECURITY
+--------------------------------------------------
+
+  nuvy_signkey.p12   - KEEP PRIVATE. Anyone with this file
+                        can sign updates to your app.
+  upload_cert.pem     - Safe to share. Contains only the
+                        public certificate; no private key.
+
+Keep a backup of nuvy_signkey.p12 in a safe place.
+Losing it means you cannot sign future updates.
